@@ -1,0 +1,26 @@
+{
+  "name": "yy-conference",
+  "version": "1.0.0",
+  "description": "2016 brand conference for yy live",
+  "author": {
+    "name": "Eric Tian",
+    "email": "tianxing0923@qq.com"
+  },
+  "homepage": "https://github.com/tianxing0923/vintage-conference",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tianxing0923/vintage-conference"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.1",
+    "gulp-clean": "^0.3.2",
+    "gulp-csso": "^1.1.0",
+    "gulp-imagemin": "^2.4.0",
+    "gulp-less": "^3.1.0",
+    "gulp-replace": "^0.5.4",
+    "gulp-uglify": "^1.5.4",
+    "gulp-usemin": "^0.3.24",
+    "run-sequence": "^1.2.2"
+  }
+}

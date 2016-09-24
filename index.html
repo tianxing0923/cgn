@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="author" content="erictian">
+    <meta name="description" content="中广核">
+    <title>中广核</title>
+    <!-- build:css css/style.css -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- endbuild -->
+</head>
+<body>
+    <div id="loading" class="loading bg active">
+        <div id="load_text" class="load-text">0%</div>
+    </div>
+    <div id="wrapper" class="wrapper">
+        <div id="container" class="container">
+            <section class="page page-1 bg active" data-door="true" data-prev="null" data-next="page-2" data-left="0%" data-year="2008">
+                <div class="title bg"></div>
+                <div class="doorframe bg">
+                    <div class="arrow bg"></div>
+                    <div class="hand"></div>
+                </div>
+                <div class="door bg"></div>
+            </section>
+            <section class="page page-2 bg hide" data-prev="page-1" data-next="page-3" data-left="9%" data-year="2008">
+                <div class="title bg"></div>
+                <div class="arrow bg"></div>
+                <div class="hand"></div>
+            </section>
+            <section class="page page-3 bg hide" data-door="true" data-prev="page-2" data-next="page-4" data-left="18%" data-year="2012">
+                <div class="title bg"></div>
+                <div class="doorframe bg">
+                    <div class="arrow bg"></div>
+                    <div class="hand"></div>
+                </div>
+                <div class="door bg"></div>
+            </section>
+            <section class="page page-4 bg hide" data-prev="page-3" data-next="page-5" data-left="27%" data-year="2012">
+                <div class="title bg"></div>
+                <div class="arrow bg"></div>
+                <div class="hand"></div>
+            </section>
+            <section class="page page-5 bg hide" data-door="true" data-prev="page-4" data-next="page-6" data-left="36%" data-year="2014">
+                <div class="title bg"></div>
+                <div class="doorframe bg">
+                    <div class="arrow bg"></div>
+                    <div class="hand"></div>
+                </div>
+                <div class="door bg"></div>
+            </section>
+            <section class="page page-6 bg hide" data-prev="page-5" data-next="page-7" data-left="45%" data-year="2014">
+                <div class="title bg"></div>
+                <div class="arrow bg"></div>
+                <div class="hand"></div>
+            </section>
+            <section class="page page-7 bg hide" data-door="true" data-prev="page-6" data-next="page-8" data-left="54%" data-year="2015">
+                <div class="title bg"></div>
+                <div class="doorframe bg">
+                    <div class="arrow bg"></div>
+                    <div class="hand"></div>
+                </div>
+                <div class="door bg"></div>
+            </section>
+            <section class="page page-8 bg end hide" data-prev="page-7" data-next="end-wrap" data-left="63%" data-year="2015">
+                <div class="title bg"></div>
+                <div class="arrow bg"></div>
+                <div class="hand"></div>
+            </section>
+        </div>
+        <div id="gear_wrap" class="gear-wrap bg pause cleafix">
+            <div id="gears" class="gears">
+                <div class="gear gear-lg gear-bg"></div>
+                <div class="gear gear-sm gear-right"></div>
+                <div class="gear gear-md gear-left"></div>
+            </div>
+            <div id="gear_progress" class="gear-progress">
+                <div class="gear gear-sm gear-top"></div>
+                <div class="gear gear-sm gear-bottom"></div>
+                <div id="milestone" class="milestone bg">2008</div>
+            </div>
+        </div>
+        <div id="end_wrap" class="end-wrap bg hide">
+            <div class="airplane bg"></div>
+            <div class="invitation-sm invitation-1 bg"></div>
+            <div class="invitation-sm invitation-2 bg"></div>
+            <div class="invitation-sm invitation-3 bg"></div>
+            <div class="invitation-sm invitation-4 bg"></div>
+            <div id="invitation" class="invitation bg"></div>
+            <div id="time_address" class="time-address bg hide">
+                <div id="btn_play" class="btn-play bg"></div>
+            </div>
+            <div class="hand"></div>
+            <div id="btn_share" class="btn btn-share bg"></div>
+            <div id="btn_back" class="btn btn-back bg"></div>
+        </div>
+    </div>
+    <script id="tpl" type="text/html">
+        
+    </script>
+    <!-- build:zeptojs js/zepto.js -->
+    <script src="js/zepto/zepto.js"></script>
+    <script src="js/zepto/ajax.js"></script>
+    <script src="js/zepto/event.js"></script>
+    <!-- endbuild -->
+    <script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <!-- build:js js/index.js -->
+    <script src="js/motion.js"></script>
+    <script src="js/index.js"></script>
+    <!-- endbuild -->
+    <script>
+        // 分享参数
+        var SHARE_OBJ = {
+            title: '中广核',
+            desc: '中广核',
+            link: location.href,
+            imgUrl: 'http://www.phboy.com/cgn/images/thumbnail.jpg',
+            success: function () { }
+        };
+
+        $.ajax({
+            url:'http://h5.skyfish.me/weixin/wxjs.php',
+            data:{
+                'url': location.href,
+                'type': 'jsonp'
+            },
+            dataType: 'jsonp',
+            success: function(data) {
+                wx.config({
+                    appId: data.appId,
+                    timestamp: data.timestamp,
+                    nonceStr: data.nonceStr,
+                    signature: data.signature,
+                    jsApiList: [
+                        'onMenuShareTimeline',
+                        'onMenuShareAppMessage',
+                        'onMenuShareQQ',
+                        'onMenuShareWeibo',
+                        'onMenuShareQZone'
+                    ]
+                });
+                wx.ready(function () {
+                    // 分享到朋友圈
+                    wx.onMenuShareTimeline(SHARE_OBJ);
+                    // 分享给朋友
+                    wx.onMenuShareAppMessage(SHARE_OBJ);
+                    // 分享到QQ
+                    wx.onMenuShareQQ(SHARE_OBJ);
+                    // 分享到腾讯微博
+                    wx.onMenuShareWeibo(SHARE_OBJ);
+                    // 分享到QQ空间
+                    wx.onMenuShareQZone(SHARE_OBJ);
+                });
+            }
+        });
+    </script>
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement('script');
+            hm.src = '//hm.baidu.com/hm.js?ddec433b11607be3a27563e3b4d41877';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+</body>
+</html>
