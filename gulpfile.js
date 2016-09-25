@@ -5,13 +5,22 @@ var clean = require('gulp-clean');
 var uglify = require('gulp-uglify');
 var usemin = require('gulp-usemin');
 var replace = require('gulp-replace');
+var plumber = require('gulp-plumber');
 var imagemin = require('gulp-imagemin');
 var autoprefixer = require('gulp-autoprefixer');
 var sequence = require('run-sequence');
+var browser = require('browser-sync');
 
 // 默认监听
 gulp.task('default', function () {
   gulp.watch('css/*.less', ['less']);
+
+  browser.init({
+    proxy: 'http://cgn.mokylin.com/',
+    reloadDelay: 200
+  });
+
+  gulp.watch(['css/**/*', 'images/**/*', 'js/**/*', '*.html'], browser.reload);
 });
 
 gulp.task('clean', function () {
@@ -22,6 +31,12 @@ gulp.task('clean', function () {
 // 编译Less
 gulp.task('less', function () {
   return gulp.src('css/*.less')
+    .pipe(plumber({
+      errorHandler: function (error) {
+        console.log(error);
+        this.emit('end');
+      }
+    }))
     .pipe(less())
     .pipe(autoprefixer({
       browsers: [

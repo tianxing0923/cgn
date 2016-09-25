@@ -1,116 +1,296 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <meta name="author" content="erictian">
-    <meta name="description" content="中广核">
-    <title>中广核</title>
-    <!-- build:css css/style.css -->
-    <link rel="stylesheet" href="css/style.css">
-    <!-- endbuild -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <meta name="author" content="erictian">
+  <meta name="description" content="中广核，一次把事情做好">
+  <title>中广核，一次把事情做好</title>
+  <!-- build:css css/style.css -->
+  <link rel="stylesheet" href="css/style.css">
+  <!-- endbuild -->
 </head>
+
 <body>
-    <div id="loading" class="loading bg active">
-        <div id="load_text" class="load-text">0%</div>
+  <div id="loading" class="loading bg active">
+    <div class="rectangle-bounce">
+      <div class="rect1"></div>
+      <div class="rect2"></div>
+      <div class="rect3"></div>
+      <div class="rect4"></div>
+      <div class="rect5"></div>
     </div>
-    <div id="wrapper" class="wrapper">
-        <div id="container" class="container">
-            <section class="page page-1 bg active" data-door="true" data-prev="null" data-next="page-2" data-left="0%" data-year="2008">
-                <div class="title bg"></div>
-                <div class="doorframe bg">
-                    <div class="arrow bg"></div>
-                    <div class="hand"></div>
-                </div>
-                <div class="door bg"></div>
-            </section>
-            <section class="page page-2 bg hide" data-prev="page-1" data-next="page-3" data-left="9%" data-year="2008">
-                <div class="title bg"></div>
-                <div class="arrow bg"></div>
-                <div class="hand"></div>
-            </section>
-            <section class="page page-3 bg hide" data-door="true" data-prev="page-2" data-next="page-4" data-left="18%" data-year="2012">
-                <div class="title bg"></div>
-                <div class="doorframe bg">
-                    <div class="arrow bg"></div>
-                    <div class="hand"></div>
-                </div>
-                <div class="door bg"></div>
-            </section>
-            <section class="page page-4 bg hide" data-prev="page-3" data-next="page-5" data-left="27%" data-year="2012">
-                <div class="title bg"></div>
-                <div class="arrow bg"></div>
-                <div class="hand"></div>
-            </section>
-            <section class="page page-5 bg hide" data-door="true" data-prev="page-4" data-next="page-6" data-left="36%" data-year="2014">
-                <div class="title bg"></div>
-                <div class="doorframe bg">
-                    <div class="arrow bg"></div>
-                    <div class="hand"></div>
-                </div>
-                <div class="door bg"></div>
-            </section>
-            <section class="page page-6 bg hide" data-prev="page-5" data-next="page-7" data-left="45%" data-year="2014">
-                <div class="title bg"></div>
-                <div class="arrow bg"></div>
-                <div class="hand"></div>
-            </section>
-            <section class="page page-7 bg hide" data-door="true" data-prev="page-6" data-next="page-8" data-left="54%" data-year="2015">
-                <div class="title bg"></div>
-                <div class="doorframe bg">
-                    <div class="arrow bg"></div>
-                    <div class="hand"></div>
-                </div>
-                <div class="door bg"></div>
-            </section>
-            <section class="page page-8 bg end hide" data-prev="page-7" data-next="end-wrap" data-left="63%" data-year="2015">
-                <div class="title bg"></div>
-                <div class="arrow bg"></div>
-                <div class="hand"></div>
-            </section>
+    <div id="load_text" class="load-text">0%</div>
+  </div>
+  <div id="wrapper" class="wrapper">
+  </div>
+  <script id="tpl" type="text/html">
+    <div id="container" class="container">
+      <section class="page page1 active" data-prev="null" data-next="page2">
+        <div class='logo bg'></div>
+        <div class="slogan bg"></div>
+        <div class="text bg"></div>
+        <div class="arrow bg"></div>
+      </section>
+      <section class="page page2 hide" data-prev="page1" data-next="page3">
+        <div class="smog1 bg pa"></div>
+        <div class="smog2 bg pa"></div>
+        <div class="text bg pr"></div>
+        <div class="tips bg pa"></div>
+      </section>
+      <section class="page page3 hide" data-door="true" data-prev="page2">
+        <div class="light-up pa"></div>
+        <div class="bg-img pa">
+          <img src="images/bg1_1.jpg">
+          <img src="images/bg1_2.png">
+          <img src="images/bg1_3.jpg">
         </div>
-        <div id="gear_wrap" class="gear-wrap bg pause cleafix">
-            <div id="gears" class="gears">
-                <div class="gear gear-lg gear-bg"></div>
-                <div class="gear gear-sm gear-right"></div>
-                <div class="gear gear-md gear-left"></div>
-            </div>
-            <div id="gear_progress" class="gear-progress">
-                <div class="gear gear-sm gear-top"></div>
-                <div class="gear gear-sm gear-bottom"></div>
-                <div id="milestone" class="milestone bg">2008</div>
-            </div>
+        <div class="text bg pa"></div>
+        <div class="plane bg pa"></div>
+        <div class="arrow bg hide"></div>
+      </section>
+      <section class="page page4 hide" data-prev="page3" data-next="page5">
+        <div class="logo bg"></div>
+        <div class="text bg"></div>
+        <div class="arrow bg"></div>
+      </section>
+      <section class="page page5 hide" data-prev="page4" data-next="page6">
+        <div class="international2 bg pa hide">
+          <header class="milestone-header">
+            <div class="arrow-right none"></div>
+            <div class="arrow-left bg" data-current="international2" data-next="international"></div>
+            <div class="title">国际化</div>
+          </header>
+          <div class="milestone milestone13 pa">
+            <header class="header">
+              <span class="symbol bg"></span>
+              <strong class="title">2016年9月6日</strong>
+              <span class="symbol bg"></span>
+            </header>
+            <div class="content">中广核迎来成立22周年纪念日。</div>
+          </div>
+          <div class="milestone milestone12 pa">
+            <header class="header">
+              <span class="symbol bg"></span>
+              <strong class="title">2016年9月6日</strong>
+              <span class="symbol bg"></span>
+            </header>
+            <div class="content">宁德核电一期工程四台机组全面建成。</div>
+          </div>
+          <div class="milestone milestone11 pa">
+            <header class="header">
+              <span class="symbol bg"></span>
+              <strong class="title">2015年12月24日</strong>
+              <span class="symbol bg"></span>
+            </header>
+            <div class="content">防城港核电站华龙一号示范机组开工。</div>
+          </div>
+          <div class="milestone milestone10 pa">
+            <header class="header">
+              <span class="symbol bg"></span>
+              <strong class="title">2015年11月23日</strong>
+              <span class="symbol bg"></span>
+            </header>
+            <div class="content">中广核收购马来西亚、孟加拉、巴基
+              <br>斯坦、阿联酋、埃及等五个国家13个
+              <br>清洁能源项目，形成了在“一带一路”
+              <br>沿线国家的战略布局。</div>
+          </div>
+          <div class="flight-line pa"></div>
+          <div class="plane bg pa"></div>
+          <div class="arrow bg"></div>
         </div>
-        <div id="end_wrap" class="end-wrap bg hide">
-            <div class="airplane bg"></div>
-            <div class="invitation-sm invitation-1 bg"></div>
-            <div class="invitation-sm invitation-2 bg"></div>
-            <div class="invitation-sm invitation-3 bg"></div>
-            <div class="invitation-sm invitation-4 bg"></div>
-            <div id="invitation" class="invitation bg"></div>
-            <div id="time_address" class="time-address bg hide">
-                <div id="btn_play" class="btn-play bg"></div>
-            </div>
-            <div class="hand"></div>
-            <div id="btn_share" class="btn btn-share bg"></div>
-            <div id="btn_back" class="btn btn-back bg"></div>
+        <div class="international bg pa hide">
+          <header class="milestone-header">
+            <div class="arrow-right bg" data-current="international" data-next="international2"></div>
+            <div class="arrow-left bg" data-current="international" data-next="scale"></div>
+            <div class="title">国际化</div>
+          </header>
+          <div class="milestone milestone9 pa">
+            <header class="header">
+              <span class="symbol bg"></span>
+              <strong class="title">2015年10月21日</strong>
+              <span class="symbol bg"></span>
+            </header>
+            <div class="content">中广核与法国EDF签订英国新建核电
+              <br>项目协议，按照“先参后控”策略，拟
+              <br>控股建设布拉德韦尔B项目，采用“华
+              <br>龙一号”自主三代核电技术。</div>
+          </div>
+          <div class="milestone milestone8 pa">
+            <header class="header">
+              <span class="symbol bg"></span>
+              <strong class="title">2014年12月10日</strong>
+              <span class="symbol bg"></span>
+            </header>
+            <div class="content">中国广核电力股份有限公司实
+              <br>现在香港联交所交易上市。</div>
+          </div>
+          <div class="milestone milestone7 pa">
+            <header class="header">
+              <span class="symbol bg"></span>
+              <strong class="title">2013年4月18日</strong>
+              <span class="symbol bg"></span>
+            </header>
+            <div class="content">纳米比亚湖山铀矿开工建设，踏出
+              <br>了走向世界舞台的关键一步。</div>
+          </div>
+          <div class="flight-line pa"></div>
+          <div class="plane bg pa"></div>
         </div>
+        <div class="scale bg pa hide">
+          <header class="milestone-header">
+            <div class="arrow-right bg" data-current="scale" data-next="international"></div>
+            <div class="arrow-left bg" data-current="scale" data-next="origin"></div>
+            <div class="title">规模化</div>
+          </header>
+          <div class="milestone milestone6 pa">
+            <header class="header">
+              <span class="symbol bg"></span>
+              <strong class="title">2011年8月7日</strong>
+              <span class="symbol bg"></span>
+            </header>
+            <div class="content">岭澳核电站二期工程2号机组投入商
+              <br>运，大亚湾核电站基地全面建成。</div>
+          </div>
+          <div class="milestone milestone5 pa">
+            <header class="header">
+              <span class="symbol bg"></span>
+              <strong class="title">2007年8月18日</strong>
+              <span class="symbol bg"></span>
+            </header>
+            <div class="content">辽宁红沿河核电站一期首台机组开
+              <br>工，走出广东，拉开核电规模化、
+              <br>批量化建设的序幕。</div>
+          </div>
+          <div class="milestone milestone4 pa">
+            <header class="header">
+              <span class="symbol bg"></span>
+              <strong class="title">2006年11月25日</strong>
+              <span class="symbol bg"></span>
+            </header>
+            <div class="content">首个风电项目在大岗子风电场开工，
+              <br>向非核清洁能源领域进军。</div>
+          </div>
+          <div class="flight-line pa"></div>
+          <div class="plane bg pa"></div>
+        </div>
+        <div class="origin bg pa show">
+          <header class="milestone-header">
+            <div class="arrow-right bg" data-current="origin" data-next="scale"></div>
+            <div class="arrow-left none"></div>
+            <div class="title">缘起</div>
+          </header>
+          <div class="milestone milestone3 pa">
+            <header class="header">
+              <span class="symbol bg"></span>
+              <strong class="title">1994年9月29日</strong>
+              <span class="symbol bg"></span>
+            </header>
+            <div class="content">中国广东核电集团有限公司成立。</div>
+          </div>
+          <div class="milestone milestone2 pa">
+            <header class="header">
+              <span class="symbol bg"></span>
+              <strong class="title">1994年2月1日</strong>
+              <span class="symbol bg"></span>
+            </header>
+            <div class="content">大亚湾核电站
+              <br>1号机组投入商运。</div>
+          </div>
+          <div class="milestone milestone1 pa">
+            <header class="header">
+              <span class="symbol bg"></span>
+              <strong class="title">1987年8月7日</strong>
+              <span class="symbol bg"></span>
+            </header>
+            <div class="content">大亚湾核电站
+              <br>正式开工。</div>
+          </div>
+          <div class="flight-line pa"></div>
+          <div class="plane bg pa"></div>
+        </div>
+      </section>
+      <section class="page page6 hide" data-prev="page5" data-next="page7">
+        <div class="logo bg"></div>
+        <div class="text bg"></div>
+        <div class="arrow bg"></div>
+      </section>
+      <section class="page page7 hide" data-prev="page6" data-next="page8">
+        <div class="text">我的环保贡献</div>
+        <div class="data data1 bg"></div>
+        <div class="data data2 bg"></div>
+        <div class="data data3 bg"></div>
+        <div class="data data4 bg"></div>
+        <div class="arrow bg"></div>
+      </section>
+      <section class="page page8 hide" data-prev="page7" data-next="page9">
+        <div class="logo bg"></div>
+        <div class="text bg"></div>
+        <div class="arrow bg"></div>
+      </section>
+      <section class="page page9 hide" data-prev="page8" data-next="page10">
+        <div class="map-wrap">
+          <div class="map bg">
+            <div class="shine singapore" data-country="singapore">
+              <div class="pulse1"></div>
+              <div class="pulse2"></div>
+              <div class="pulse3"></div>
+            </div>
+            <div class="shine malaysia" data-country="malaysia">
+              <div class="pulse1"></div>
+              <div class="pulse2"></div>
+              <div class="pulse3"></div>
+            </div>
+            <div class="milestone singapore">
+              <header class="header">
+                <span class="symbol bg"></span>
+                <strong class="title">新加坡</strong>
+                <span class="symbol bg"></span>
+              </header>
+              <div class="content">光电生物质能一体化发电项目</div>
+            </div>
+            <div class="milestone malaysia">
+              <header class="header">
+                <span class="symbol bg"></span>
+                <strong class="title">马来西亚</strong>
+                <span class="symbol bg"></span>
+              </header>
+              <div class="content">收购埃德拉公司下属13个电力项目</div>
+            </div>
+          </div>
+        </div>
+        <header class="map-header">
+          <!-- <div class="arrow-left bg"></div> -->
+          <strong>我的全球布局</strong>
+          <!-- <div class="arrow-right bg"></div> -->
+        </header>
+        <div class="arrow bg"></div>
+      </section>
+      <section class="page page10 hide" data-prev="page9" data-next="null">
+        <div class="name">
+          <div class="china bg"></div>
+          <div class="general bg"></div>
+          <div class="nuclear bg"></div>
+        </div>
+        <div class="text bg"></div>
+        <div class="plane bg"></div>
+      </section>
     </div>
-    <script id="tpl" type="text/html">
-        
-    </script>
-    <!-- build:zeptojs js/zepto.js -->
-    <script src="js/zepto/zepto.js"></script>
-    <script src="js/zepto/ajax.js"></script>
-    <script src="js/zepto/event.js"></script>
-    <!-- endbuild -->
-    <script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-    <!-- build:js js/index.js -->
-    <script src="js/motion.js"></script>
-    <script src="js/index.js"></script>
-    <!-- endbuild -->
-    <script>
+  </script>
+  <!-- build:zeptojs js/zepto.js -->
+  <script src="js/zepto/zepto.js"></script>
+  <script src="js/zepto/ajax.js"></script>
+  <script src="js/zepto/event.js"></script>
+  <!-- endbuild -->
+  <!-- <script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js"></script> -->
+  <!-- build:js js/index.js -->
+  <script src="js/motion.js"></script>
+  <script src="js/index.js"></script>
+  <!-- endbuild -->
+  <!-- <script>
         // 分享参数
         var SHARE_OBJ = {
             title: '中广核',
@@ -155,15 +335,16 @@
                 });
             }
         });
-    </script>
-    <script>
-        var _hmt = _hmt || [];
-        (function() {
-            var hm = document.createElement('script');
-            hm.src = '//hm.baidu.com/hm.js?ddec433b11607be3a27563e3b4d41877';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(hm, s);
-        })();
-    </script>
+    </script> -->
+  <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement('script');
+    hm.src = '//hm.baidu.com/hm.js?ddec433b11607be3a27563e3b4d41877';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+  </script>
 </body>
+
 </html>
