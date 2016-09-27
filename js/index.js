@@ -4,18 +4,18 @@ $(function () {
     'images/arrow_left.png',
     'images/arrow_right.png',
     'images/bg1.jpg',
-    'images/china.jpg',
+    // 'images/china.jpg',
     'images/data1.png',
     'images/data2.png',
     'images/data3.png',
     'images/data4.png',
-    'images/general.jpg',
+    // 'images/general.jpg',
     'images/bg1_1.jpg',
     'images/logo.png',
     'images/bg1_2.png',
     'images/map.jpg',
     'images/nuclear.jpg',
-    'images/bg1_3.jpg',
+    // 'images/bg1_3.jpg',
     'images/plane.png',
     'images/plane2.png',
     'images/bg2.jpg',
@@ -38,27 +38,6 @@ $(function () {
     'images/text8.png',
     'images/bg8.jpg'
   ];
-  var sourceArr2 = [
-    'images/general.jpg',
-    'images/logo.png',
-    'images/logo2.png',
-    'images/map.jpg',
-    'images/nuclear.jpg',
-    'images/plane.png',
-    'images/plane2.png',
-    'images/slogan.png',
-    'images/smog1.png',
-    'images/smog2.png',
-    'images/symbol.png',
-    'images/text1.png',
-    'images/text2.png',
-    'images/text3.png',
-    'images/text4.png',
-    'images/text5.png',
-    'images/text6.png',
-    'images/text7.png',
-    'images/text8.png'
-  ];
   new mo.Loader(sourceArr, {
     loadType: 1,
     onLoading: function (count, total) {
@@ -73,6 +52,11 @@ $(function () {
       $loading.removeClass('active');
       $wrapper.addClass('active');
 
+      var $audio = $('#audio');
+      var audio = $audio[0];
+      audio.src = 'res/bgm.m4a';
+      audio.play();
+
       setTimeout(function () {
         $loading.addClass('hide');
         initListener();
@@ -83,13 +67,122 @@ $(function () {
     }
   });
 
-  function getMedia() {
-    return (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) || navigator.getUserMedia || navigator.webkitGetUserMedia ||
-      navigator.mozGetUserMedia || navigator.msGetUserMedia;
+  AV.init({
+    appId: 'w6l5vcDulMVOiMFpAmcN7F6c-gzGzoHsz',
+    appKey: 'zSFjcsytxCy0l9HkrXFLe1xQ'
+  });
+
+  // 获取计数
+  function getCount(options) {
+    var Counter = AV.Object.extend('Counter');
+    var query = new AV.Query(Counter);
+    query.equalTo('url', options.url);
+    query.find({
+      success: function (results) {
+        options.success(results);
+      },
+      error: function (error) {
+        console && console.log('Error:' + error.code + ' ' + error.message);
+      }
+    });
   }
 
+  // 添加计数
+  function addCount(options) {
+    var Counter = AV.Object.extend('Counter');
+    if (options.counter) {
+      // options.counter.fetchWhenSave(true);
+      if (options.read) {
+        options.counter.increment('read', parseInt(Math.random() * 100));
+        options.counter.increment('realread', 1);
+      }
+      options.counter.save();
+    } else if (options.isInit) {
+      var newcounter = new Counter();
+      newcounter.set('title', options.title);
+      newcounter.set('url', options.url);
+      newcounter.set('read', 1);
+      newcounter.set('realread', 1);
+      newcounter.save();
+    } else {
+      var query = new AV.Query(Counter);
+      query.equalTo('url', options.url);
+      query.find({
+        success: function (results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            // counter.fetchWhenSave(true);
+            if (options.read) {
+              counter.increment('read', parseInt(Math.random() * 100));
+              counter.increment('realread', 1);
+            }
+            counter.save();
+          } else {
+            var newcounter = new Counter();
+            newcounter.set('title', options.title);
+            newcounter.set('url', options.url);
+            newcounter.set('read', parseInt(Math.random() * 100));
+            newcounter.set('realread', 1);
+            newcounter.save();
+          }
+        },
+        error: function (error) {
+          console && console.log('Error:' + error.code + ' ' + error.message);
+        }
+      });
+    }
+  }
+
+  var STATISTICS = {
+    title: '中广核，一次把事情做好',
+    url: 'http://www.phboy.com/cgn/'
+  };
+
+  var COUNT = 0;
+
+  getCount({
+    url: STATISTICS.url,
+    success: function (results) {
+      if (results.length !== 0) {
+        var counter = results[0];
+        COUNT = counter.get('read');
+        console.log(COUNT);
+
+        // 增加阅读量
+        addCount({
+          counter: counter,
+          read: true
+        });
+      } else {
+        addCount({
+          title: STATISTICS.title,
+          url: STATISTICS.url,
+          isInit: true
+        });
+      }
+    }
+  });
+
+  // function getMedia() {
+  //   return (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) || navigator.getUserMedia || navigator.webkitGetUserMedia ||
+  //     navigator.mozGetUserMedia || navigator.msGetUserMedia;
+  // }
+
   var flipTimeout;
-  var handTimeout;
+  var arrowTimeout;
+
+  var $container;
+  var $page1;
+  var $page2;
+  var $page3;
+  var $page4;
+  var $page5;
+  var $page6;
+  var $page7;
+  var $page8;
+  var $page9;
+  var $page10;
+  var $page11;
 
   // 进度
   function progress(percentage) {
@@ -126,176 +219,62 @@ $(function () {
 
   // 初始化事件监听
   function initListener() {
-    var $container = $('#container');
-    var $page1 = $container.find('.page1');
-    var $page2 = $container.find('.page2');
-    var $page3 = $container.find('.page3');
-    var $page4 = $container.find('.page4');
-    var $page5 = $container.find('.page5');
-    var $page6 = $container.find('.page6');
-    var $page7 = $container.find('.page7');
-    var $page8 = $container.find('.page8');
-    var $page9 = $container.find('.page9');
-    var $page10 = $container.find('.page10');
+    $container = $('#container');
+    $page1 = $container.find('.page1');
+    $page2 = $container.find('.page2');
+    $page3 = $container.find('.page3');
+    $page4 = $container.find('.page4');
+    $page5 = $container.find('.page5');
+    $page6 = $container.find('.page6');
+    $page7 = $container.find('.page7');
+    $page8 = $container.find('.page8');
+    $page9 = $container.find('.page9');
+    $page10 = $container.find('.page10');
+    $page11 = $container.find('.page11');
 
+    var $audio = $('#audio');
+    var $music = $('#music');
+    var audio = $audio[0];
 
-    $page1.on('touchstart', '.arrow', function (e) {
-      $(this).removeClass('show');
-      $page2.removeClass('hide');
-      setTimeout(function () {
-        $page2.addClass('active');
-
-        // if (getMedia()) {
-        //   getMedia({
-        //     audio: true
-        //   }, function(stream) {
-        //     alert('获取麦克风声音');
-        //   }, function() {
-
-        //   });
-        // } else {
-          setTimeout(function () {
-            $page2.removeClass('active');
-            setTimeout(function () {
-              $page3.removeClass('hide');
-              setTimeout(function () {
-                $page3.addClass('active');
-                setTimeout(function() {
-                  $page1.removeClass('active').addClass('hide');
-                  $page2.addClass('hide');
-                }, 500);
-              }, 50);
-            }, 500);
-          }, 3000);
-        // }
-      }, 50);
-    });
+        // 播放背景音乐
+        $audio.on('play', function (e) {
+            $music.addClass('playing')
+        });
+        $audio.on('pause', function (e) {
+            $music.removeClass('playing')
+        });
+        $music.on('touchstart', function (e) {
+            $music.hasClass('playing') ? audio.pause() : audio.play();
+        });
 
     $page3.on('touchstart', '.plane', function (e) {
       $(this).addClass('flying');
       $page3.find('.light-up').addClass('uping');
       $page3.find('.text').addClass('show');
       setTimeout(function () {
-        $page3.find('.arrow').removeClass('hide').addClass('show');
+        var options = {  
+          useEasing: true,
+            useGrouping: true,
+            separator: '',
+            decimal: '',
+            prefix: '',
+            suffix: ''
+        };
+        var countup = new CountUp('countup', 0, 86, 0, 2.5, options);
+        countup.start();
+      }, 500);
+      setTimeout(function () {
+        $page3.find('.arrow').addClass('show');
       }, 2000);
     });
 
-    $page3.on('touchstart', '.arrow', function (e) {
-      $page3.removeClass('active');
-      $page4.removeClass('hide');
-      setTimeout(function () {
-        $page4.addClass('active');
-        setTimeout(function () {
-          $page3.addClass('hide');
-          setTimeout(function () {
-            $page4.find('.arrow').addClass('show');
-          }, 1000);
-        }, 500);
-      }, 50);
-    });
-
-    $page4.on('touchstart', '.arrow', function (e) {
-      $page4.removeClass('active');
-      $page5.removeClass('hide');
-      setTimeout(function () {
-        $page5.addClass('active');
-        setTimeout(function () {
-          $page4.addClass('hide');
-          $page5.find('.origin .plane').addClass('flying');
-          setTimeout(function() {
-            $page5.find('.origin .milestone').addClass('show');
-          }, 1500);
-        }, 500);
-      }, 50);
-    });
-
-    var flipTimeout;
-
-    $page5.on('touchstart', '.arrow-left, .arrow-right', function (e) {
-      var current = $(this).data('current');
-      var next = $(this).data('next');
-
-      if (!current) {
-        return;
+    $page5.on('touchstart', '.plane', function (e) {
+      var $milestone_page = $container.find('.active').find('.milestone-page.show');
+      var milestonePrev = $milestone_page.data('prev');
+      var milestoneNext = $milestone_page.data('next');
+      if (milestoneNext != null && milestoneNext != 'null') {
+        showMilestonePage[milestoneNext]();
       }
-
-      var $current = $page5.find('.' + current);
-      var $next = $page5.find('.' + next);
-
-      $current.removeClass('show');
-      $next.removeClass('hide');
-      setTimeout(function () {
-        $next.addClass('show');
-        $next.find('.plane').addClass('flying');
-        $current.find('.arrow').removeClass('show');
-      }, 50);
-      clearTimeout(flipTimeout);
-      flipTimeout = setTimeout(function() {
-        $current.addClass('hide');
-        $next.find('.milestone').addClass('show');
-        $current.find('.milestone').removeClass('show');
-        $current.find('.plane').removeClass('flying');
-        $next.find('.arrow').addClass('show');
-      }, 1000);
-    });
-
-    $page5.on('touchstart', '.arrow', function (e) {
-      $page5.removeClass('active');
-      $page6.removeClass('hide');
-      setTimeout(function () {
-        $page6.addClass('active');
-        setTimeout(function () {
-          $page5.addClass('hide');
-          setTimeout(function () {
-            $page6.find('.arrow').addClass('show');
-          }, 1000);
-        }, 500);
-      }, 50);
-    });
-
-    $page6.on('touchstart', '.arrow', function (e) {
-      $page6.removeClass('active');
-      $page7.removeClass('hide');
-      setTimeout(function () {
-        $page7.addClass('active');
-        setTimeout(function () {
-          $page6.addClass('hide');
-          setTimeout(function () {
-            $page7.find('.arrow').addClass('show');
-          }, 2500);
-        }, 500);
-      }, 50);
-    });
-
-    $page7.on('touchstart', '.arrow', function (e) {
-      $page7.removeClass('active');
-      $page8.removeClass('hide');
-      setTimeout(function () {
-        $page8.addClass('active');
-        setTimeout(function () {
-          $page7.addClass('hide');
-          setTimeout(function () {
-            $page8.find('.arrow').addClass('show');
-          }, 1000);
-        }, 500);
-      }, 50);
-    });
-
-    $page8.on('touchstart', '.arrow', function (e) {
-      $page8.removeClass('active');
-      $page9.removeClass('hide');
-      var $map_wrap = $page9.find('.map-wrap');
-      $map_wrap.scrollTop(300);
-      $map_wrap.scrollLeft(1180);
-      setTimeout(function () {
-        $page9.addClass('active');
-        setTimeout(function () {
-          $page8.addClass('hide');
-          setTimeout(function () {
-            $page9.find('.arrow').addClass('show');
-          }, 1000);
-        }, 500);
-      }, 50);
     });
 
     $page9.on('touchstart', '.shine', function (e) {
@@ -305,122 +284,236 @@ $(function () {
     });
 
     $page9.on('touchstart', '.arrow', function (e) {
-      $page9.removeClass('active');
-      $page10.removeClass('hide');
-      setTimeout(function () {
-        $page10.addClass('active');
-        setTimeout(function () {
-          $page9.addClass('hide');
-          setTimeout(function () {
-            $page10.find('.arrow').addClass('show');
-          }, 1000);
-        }, 500);
-      }, 50);
+      flipPage('page8', 'page10', $page9, $page10);
     });
 
-    // var $container = $('#container');
-    // var startX,
-    //     startY,
-    //     moveEndX,
-    //     moveEndY;
+    $page11.on('touchstart', '.text2', function (e) {
+      $('#share_wrap').removeClass('hide');
+    });
 
-    // $container.on('touchstart', function (e) {
-    //     e.preventDefault();
-    //     startX = e.changedTouches[0].pageX,
-    //     startY = e.changedTouches[0].pageY;
-    // });
-    // $container.on('touchmove', function (e) {
-    //     e.preventDefault();
-    //     moveEndX = e.changedTouches[0].pageX;
-    //     moveEndY = e.changedTouches[0].pageY;
-    // });
-    // $container.on('touchend', function (e) {
-    //     var $gear_wrap = $('#gear_wrap'),
-    //         $gear_progress = $('#gear_progress'),
-    //         $oldActive = $container.find('.active'),
-    //         $newActive;
+    $('#share_wrap').on('touchstart', function (e) {
+      $(this).addClass('hide');
+    });
 
-    //     var direction = getSlideDirection(startX, startY, moveEndX, moveEndY);
-    //     switch (direction) {
-    //     case 0:
-    //         return;
-    //     // 向上、向左
-    //     case 1:
-    //     case 3:
-    //         var next = $oldActive.data('next');
-    //         $newActive = $('.' + next);
-    //         break;
-    //     // 向下、向右
-    //     case 2:
-    //     case 4:
-    //         var prev = $oldActive.data('prev');
-    //         if (prev == null || prev == 'null') {
-    //             return;
-    //         }
-    //         $newActive = $('.' + prev);
-    //         break;
-    //     default:
-    //         return;
-    //     }
+    var startX;
+    var startY;
+    var moveEndX;
+    var moveEndY;
 
-    //     clearTimeout(flipTimeout);
-    //     clearTimeout(handTimeout);
+    $container.on('touchstart', function (e) {
+      var $target = $(e.target);
+      if ($target.closest('.page9').length == 0) {
+        e.preventDefault();
+        startX = e.changedTouches[0].pageX;
+        startY = e.changedTouches[0].pageY;
+      }
+    });
+    $container.on('touchmove', function (e) {
+      var $target = $(e.target);
+      if ($target.closest('.page9').length == 0) {
+        e.preventDefault();
+        moveEndX = e.changedTouches[0].pageX;
+        moveEndY = e.changedTouches[0].pageY;
+      }
+    });
+    $container.on('touchend', function (e) {
+      var $target = $(e.target);
+      if ($target.closest('.page9').length == 0) {
+        var $oldActive = $container.find('.active');
+        var $newActive;
 
-    //     var isDoor = $oldActive.data('door');
-    //     if (isDoor) {
-    //         var $door = $oldActive.find('.door');
-    //         switch (direction) {
-    //         // 向上
-    //         case 1:
-    //             $door.css('top', '-15%');
-    //             break;
-    //         // 向下
-    //         case 2:
-    //             $door.css('top', '49%');
-    //             break;
-    //         // 向左
-    //         case 3:
-    //             $door.css('left', '-34%');
-    //             break;
-    //         // 向右
-    //         case 4:
-    //             $door.css('left', '36%');
-    //             break;
-    //         }
-    //         setTimeout(function () {
-    //             flipPage($oldActive, $newActive, $gear_wrap, $gear_progress);
-    //         }, 500);
-    //     } else {
-    //         flipPage($oldActive, $newActive, $gear_wrap, $gear_progress);
-    //     }
-    // });
+        var direction = getSlideDirection(startX, startY, moveEndX, moveEndY);
+        var prev = $oldActive.data('prev');
+        var next = $oldActive.data('next');
+        switch (direction) {
+          // case 0:
+          //   return;
+          // 向上
+        case 1:
+          $newActive = $('.' + next);
+          break;
+          // 向下
+        case 2:
+          // if (prev == null || prev == 'null') {
+          //   return;
+          // }
+          // $newActive = $('.' + prev);
+          if ($oldActive.hasClass('page5')) {
+            var $milestone_page = $oldActive.find('.milestone-page.show');
+            var milestonePrev = $milestone_page.data('prev');
+            var milestoneNext = $milestone_page.data('next');
+            if (milestonePrev != null && milestonePrev != 'null') {
+              $page5.find('.' + milestonePrev).removeClass('hide');
+              $milestone_page.removeClass('show');
+              setTimeout(function () {
+                $page5.find('.' + milestonePrev).addClass('show');
+                $page5.find('.' + milestonePrev).find('.milestone').addClass('show');
+                $milestone_page.addClass('hide');
+
+                clearAni($milestone_page);
+              }, 500);
+            }
+          }
+          return;;
+        default:
+          return;
+        }
+
+        if (!$oldActive.find('.arrow').hasClass('show')) {
+          if ($oldActive.hasClass('page5')) {
+            var $milestone_page = $oldActive.find('.milestone-page.show');
+            var milestonePrev = $milestone_page.data('prev');
+            var milestoneNext = $milestone_page.data('next');
+            if (direction == 1 && milestoneNext != null && milestoneNext != 'null') {
+              showMilestonePage[milestoneNext]();
+            }
+          }
+          return;
+        }
+
+        clearTimeout(flipTimeout);
+        clearTimeout(arrowTimeout);
+
+        flipPage(prev, next, $oldActive, $newActive);
+      }
+    });
   }
 
   // 翻页
-  // function flipPage($oldActive, $newActive, $gear_wrap, $gear_progress) {
-  //     if (!$oldActive.hasClass('end')) {
-  //         $gear_wrap.removeClass('pause');
-  //     }
-  //     $oldActive.removeClass('active');
-  //     $newActive.removeClass('hide');
-  //     $('#wrapper').find('.hand').removeClass('moving press');
-  //     $('#wrapper').find('.arrow').removeClass('show');
+  function flipPage(prev, next, $oldActive, $newActive) {
+    if (next !== 'page2') {
+      $oldActive.removeClass('active');
+    }
+    $newActive.removeClass('hide');
+    setTimeout(function () {
+      $newActive.addClass('active');
+      if (next == 'page2') {
+        $page2.find('.smog').addClass('moving');
+        setTimeout(function () {
+          $page2.find('.text, .tips').addClass('show');
+        }, 1500);
+        flipTimeout = setTimeout(function () {
+          $page2.find('.text, .tips').removeClass('show');
+          setTimeout(function () {
+            $page2.find('.smog').removeClass('moving');
+            setTimeout(function () {
+              $page2.removeClass('active');
+              $page3.removeClass('hide');
+              setTimeout(function () {
+                $page3.addClass('active');
+                arrowTimeout = setTimeout(function () {
+                  $page1.removeClass('active').addClass('hide');
+                  $page2.addClass('hide');
+                }, 500);
+              }, 50);
+            }, 2000);
+          }, 500);
+        }, 5000);
+      } else if (next == 'page5') {
+        setTimeout(function () {
+          $page4.addClass('hide');
+          showOrigin();
+        }, 500);
+      } else if (next == 'page9') {
+        var $map_wrap = $page9.find('.map-wrap');
+        $map_wrap.scrollTop(222);
+        $map_wrap.scrollLeft(1425);
+        arrowTimeout = setTimeout(function () {
+          $newActive.find('.arrow').addClass('show');
+        }, 1500);
+      } else {
 
-  //     $('#milestone').text($newActive.data('year') || '');
-  //     var left = $newActive.data('left');
-  //     if (left) {
-  //         $gear_progress.css('margin-left', left);
-  //     }
+        flipTimeout = setTimeout(function () {
+          $oldActive.addClass('hide');
+          $oldActive.addClass('hide');
 
-  //     flipTimeout = setTimeout(function () {
-  //         $gear_wrap.addClass('pause');
-  //         $oldActive.addClass('hide');
-  //         $newActive.addClass('active');
-  //         $('#container').find('.door').removeAttr('style');
-  //         handTimeout = setTimeout(function () {
-  //             $newActive.find('.hand').addClass('moving');
-  //             $newActive.find('.arrow').addClass('show');
-  //         }, 1000);
-  //     }, 500);
-  // }
+
+          arrowTimeout = setTimeout(function () {
+            $newActive.find('.arrow').addClass('show');
+          }, 1500);
+
+        }, 500);
+      }
+
+    }, 50);
+  }
+
+  function clearAni($page) {
+    $page.find('[data-ani]').each(function (index, item) {
+      var $item = $(item);
+      $item.removeClass($item.data('ani'));
+    });
+  }
+
+  var showMilestonePage = {
+    origin: showOrigin,
+    scale: showScale,
+    international: showInternational,
+    international2: showInternational2
+  }
+
+  function showOrigin() {
+    $page5.find('.origin .milestone').addClass('show');
+    // setTimeout(function () {
+    //   showScale();
+    // }, 3000);
+  }
+
+  function showScale() {
+    $page5.find('.origin .plane').addClass('flying');
+    setTimeout(function () {
+      $page5.find('.origin').removeClass('show');
+      $page5.find('.scale').removeClass('hide');
+      setTimeout(function () {
+        $page5.find('.scale').addClass('show');
+        $page5.find('.scale .milestone').addClass('show');
+        // setTimeout(function () {
+        //   showInternational();
+        // }, 3000)
+      }, 50);
+      setTimeout(function () {
+        $page5.find('.origin').addClass('hide');
+        clearAni($page5.find('.origin'));
+      }, 500);
+    }, 1500);
+  }
+
+  function showInternational() {
+    $page5.find('.scale .plane').addClass('flying');
+    setTimeout(function () {
+      $page5.find('.scale').removeClass('show');
+      $page5.find('.international').removeClass('hide');
+      setTimeout(function () {
+        $page5.find('.international').addClass('show');
+        $page5.find('.international .milestone').addClass('show');
+        // setTimeout(function () {
+        //   showInternational2();
+        // }, 3000)
+      }, 50);
+      setTimeout(function () {
+        $page5.find('.scale').addClass('hide');
+        clearAni($page5.find('.scale'));
+      }, 500);
+    }, 1500);
+  }
+
+  function showInternational2() {
+    $page5.find('.international .plane').addClass('flying');
+    setTimeout(function () {
+      $page5.find('.international').removeClass('show');
+      $page5.find('.international2').removeClass('hide');
+      setTimeout(function () {
+        $page5.find('.international2').addClass('show');
+        $page5.find('.international2 .milestone').addClass('show');
+        setTimeout(function () {
+          // $page5.find('.international2 .plane').addClass('flying');
+          $page5.find('.arrow').addClass('show');
+        }, 3000)
+      }, 50);
+      setTimeout(function () {
+        $page5.find('.international').addClass('hide');
+        clearAni($page5.find('.international'));
+      }, 500);
+    }, 1500);
+  }
 });

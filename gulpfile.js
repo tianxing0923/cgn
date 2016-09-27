@@ -24,7 +24,7 @@ gulp.task('default', function () {
 });
 
 gulp.task('clean', function () {
-  gulp.src('dist')
+  return gulp.src('dist')
     .pipe(clean());
 });
 
@@ -55,7 +55,7 @@ gulp.task('less', function () {
 // 图片压缩
 gulp.task('images', function () {
   return gulp.src('images/*')
-    .pipe(imagemin())
+    // .pipe(imagemin())
     .pipe(gulp.dest('dist/images'));
 });
 
