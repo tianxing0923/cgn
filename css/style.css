@@ -515,10 +515,10 @@ img {
   display: block;
 }
 .page3 .text {
-  top: 0;
+  top: 35px;
   left: 0;
   width: 100%;
-  height: 102.5px;
+  height: 104px;
   background-image: url(../images/text4.png);
   opacity: 0;
 }
@@ -547,10 +547,10 @@ img {
   margin-left: -21px;
 }
 .page3 .countup {
-  padding-top: 18px;
-  padding-right: 8px;
+  padding-top: 11px;
+  padding-right: 10px;
   color: #fb650b;
-  font-size: 2rem;
+  font-size: 2.2rem;
   font-weight: bold;
   text-align: center;
 }

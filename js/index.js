@@ -91,11 +91,8 @@ $(function () {
   function addCount(options) {
     var Counter = AV.Object.extend('Counter');
     if (options.counter) {
-      // options.counter.fetchWhenSave(true);
-      if (options.read) {
-        options.counter.increment('read', parseInt(Math.random() * 100));
-        options.counter.increment('realread', 1);
-      }
+      options.counter.increment('read', parseInt(Math.random() * 20));
+      options.counter.increment('realread', 1);
       options.counter.save();
     } else if (options.isInit) {
       var newcounter = new Counter();
@@ -111,17 +108,14 @@ $(function () {
         success: function (results) {
           if (results.length > 0) {
             var counter = results[0];
-            // counter.fetchWhenSave(true);
-            if (options.read) {
-              counter.increment('read', parseInt(Math.random() * 100));
-              counter.increment('realread', 1);
-            }
+            counter.increment('read', parseInt(Math.random() * 20));
+            counter.increment('realread', 1);
             counter.save();
           } else {
             var newcounter = new Counter();
             newcounter.set('title', options.title);
             newcounter.set('url', options.url);
-            newcounter.set('read', parseInt(Math.random() * 100));
+            newcounter.set('read', parseInt(Math.random() * 20));
             newcounter.set('realread', 1);
             newcounter.save();
           }
@@ -146,12 +140,10 @@ $(function () {
       if (results.length !== 0) {
         var counter = results[0];
         COUNT = counter.get('read');
-        console.log(COUNT);
 
         // 增加阅读量
         addCount({
-          counter: counter,
-          read: true
+          counter: counter
         });
       } else {
         addCount({
@@ -162,11 +154,6 @@ $(function () {
       }
     }
   });
-
-  // function getMedia() {
-  //   return (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) || navigator.getUserMedia || navigator.webkitGetUserMedia ||
-  //     navigator.mozGetUserMedia || navigator.msGetUserMedia;
-  // }
 
   var flipTimeout;
   var arrowTimeout;
@@ -260,7 +247,7 @@ $(function () {
             prefix: '',
             suffix: ''
         };
-        var countup = new CountUp('countup', 0, 86, 0, 2.5, options);
+        var countup = new CountUp('countup', 0, COUNT, 0, 2.5, options);
         countup.start();
       }, 500);
       setTimeout(function () {
