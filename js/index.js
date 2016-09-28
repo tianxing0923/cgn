@@ -91,7 +91,7 @@ $(function () {
   function addCount(options) {
     var Counter = AV.Object.extend('Counter');
     if (options.counter) {
-      options.counter.increment('read', parseInt(Math.random() * 10));
+      options.counter.increment('read', parseInt(Math.random() * 10));// parseInt(Math.random() * 10));
       options.counter.increment('realread', 1);
       options.counter.save();
     } else if (options.isInit) {
@@ -108,14 +108,14 @@ $(function () {
         success: function (results) {
           if (results.length > 0) {
             var counter = results[0];
-            counter.increment('read', parseInt(Math.random() * 10));
+            counter.increment('read', parseInt(Math.random() * 30));// parseInt(Math.random() * 10));
             counter.increment('realread', 1);
             counter.save();
           } else {
             var newcounter = new Counter();
             newcounter.set('title', options.title);
             newcounter.set('url', options.url);
-            newcounter.set('read', parseInt(Math.random() * 10));
+            newcounter.set('read', parseInt(Math.random() * 10));// parseInt(Math.random() * 10));
             newcounter.set('realread', 1);
             newcounter.save();
           }
