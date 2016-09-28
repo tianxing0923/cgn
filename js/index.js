@@ -91,7 +91,7 @@ $(function () {
   function addCount(options) {
     var Counter = AV.Object.extend('Counter');
     if (options.counter) {
-      options.counter.increment('read', parseInt(Math.random() * 10));// parseInt(Math.random() * 10));
+      options.counter.increment('read', parseInt(Math.random() * 30));// parseInt(Math.random() * 10));
       options.counter.increment('realread', 1);
       options.counter.save();
     } else if (options.isInit) {
@@ -115,7 +115,7 @@ $(function () {
             var newcounter = new Counter();
             newcounter.set('title', options.title);
             newcounter.set('url', options.url);
-            newcounter.set('read', parseInt(Math.random() * 10));// parseInt(Math.random() * 10));
+            newcounter.set('read', parseInt(Math.random() * 30));// parseInt(Math.random() * 10));
             newcounter.set('realread', 1);
             newcounter.save();
           }
